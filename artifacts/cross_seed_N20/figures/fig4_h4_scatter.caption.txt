@@ -1,0 +1,30 @@
+Figure 4. Group-asymmetric burden degradation (H4): the structural descriptor
+difference DS = S(-1) - S(+1) against the burden-increase asymmetry DDB(c) =
+DB_(-1)(c) - DB_(+1)(c), at each degraded knowledge rung. Blue markers are the
+six effect-modifying SCM instances (3 topologies x 2 families); orange markers
+are the six additive controls, which sit at DS = 0 by construction (PS-3
+convention 4). Marker shape encodes topology (circle = triangle, diamond =
+collider, square = chain); filled = linear family, hollow =
+nonlinear-Gaussian. Small translucent points are the 20 per-seed values; the
+large marker is the instance mean and the vertical bar is +/-1 descriptive SD.
+No standard errors or confidence intervals are shown: PS-9 reads the sign
+claim as a per-seed COUNT, printed beside each effect-modifying instance as
+agree/20 (gate: >= 16/20), set in bold where the instance clears the gate, and
+re-tasks SD as descriptive dispersion only (the inference stance). POPULATION:
+DDB(c) is built on the PAIRWISE-vs-L2 common-found set
+(`N_common_found_pairwise_vs_L2`, value column `ΔB_g_vs_L2_common_found`),
+whose denominator arity is TWO. The `twoway` word is carried on the value axis
+and here, per PS-4's dynamic-arity rule: the three-way population Figure 1
+plots and the four-way L1-discovered population Figures 6-7 plot are different
+denominators, and an unlabelled magnitude could be read against the wrong one.
+REGISTER-LOGGED PREDICTION: effect-modifying instances fall in the lower-left
+quadrant (DS < 0 and DDB < 0, i.e. sign(DS . DDB) > 0), while additive
+controls pin to the vertical DS = 0 axis near DDB = 0. OBSERVED: at L1-oracle
+0 of 6 effect-modifying instances clear the seed gate; at L0, 3 of 6. The
+predicted lower-left concentration is not obtained at either rung. At L0 the
+following instances carry the OPPOSITE sign to the prediction (DDB > 0 against
+DS < 0): collider/linear, collider/nonlinear-Gaussian. The predicted quadrant
+is shaded as a reading aid. Levels are not comparable across topologies
+(PS-8): the pooled points are within-topology differences, so the panel is
+read as a pattern - which quadrant, which sign - and never as a magnitude
+comparison between marker shapes.

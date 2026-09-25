@@ -1,0 +1,27 @@
+Figure 3. Per-seed signed Δ_cost at L2 — the group difference mean(cost | A =
+−1) − mean(cost | A = +1) — for each of the 12 cells of the full grid, one
+panel per topology, with the Δ_cost = 0 reference line. TWO POPULATIONS,
+LABELLED AS SUCH (the chain SCM specification). The plotted cloud is the
+DISPERSION STRIP: all 20 seeds of the sealed N = 20 grid. The annotated
+|mean|/sd above each column is the GATE: the PS-2 detectability gate as
+evaluated on seeds 0-5 only (n_seeds_evaluated_for_gate = 6), read from
+`detectability_gate_provenance.csv` and never recomputed from the strip. PS-1
+forecloses re-evaluating the gate on a growing seed count, because that would
+reintroduce the stopping-rule freedom the staged 6->20 design exists to
+prevent; a 6-seed statistic sitting beside a 20-seed cloud is that discipline
+working, not a stale number. The two are drawn in different registers — grey
+annotation for the gate, coloured markers for the strip — and the panel legend
+names both. THE RECORD. The gate passes in 12/12 cells: sign(Δ_cost(L2)) is
+consistent across all 6 early-look seeds in every cell and |mean| exceeds the
+seed SD everywhere, with a minimum ratio of 17.071250 at collider · linear ·
+effect-modifying. This discharges PS-2 for all three topologies — triangle,
+collider (the SCM specification) and chain (the chain SCM specification). The
+strip's own three-way common-found variant is cross-checked against Δ_cost at
+render time and must agree exactly (the common-found no-op); a divergence
+aborts the figure rather than being drawn. PS-8: Δ_cost levels are not
+comparable across topologies (different action-space dimension, induced
+marginal variances and classifier-boundary geometry), so the three panels
+carry independent y-ranges and the cross-panel reading is pattern-only. There
+are no standard errors or confidence intervals on this figure: PS-9 re-tasks
+SD as descriptive dispersion, and a formal interval would over-promise
+precision this structure lacks (the inference stance).

@@ -1,0 +1,5 @@
+# Development and test dependencies (not needed to reproduce results/).
+#   pip install -r requirements.txt -r requirements-dev.txt
+pytest==9.1.1
+ruff==0.15.20
+pillow==12.3.0        # tests/test_figure_scripts.py reads rendered PNGs via PIL

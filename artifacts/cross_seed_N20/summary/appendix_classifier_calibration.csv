@@ -1,0 +1,13 @@
+topology,family,regime,base_rate_target,base_rate_realized,eps_scale_mean,eps_scale_min,eps_scale_max,accuracy_target_band_low,accuracy_target_band_high,accuracy_target_center,accuracy_realized,accuracy_group_neg,accuracy_group_pos,accuracy_gap_pp,n_seeds
+chain,linear,additive,0.35,0.3500,2.5710,2.0993,2.8999,0.75,0.9,0.825,0.8245,0.9526,0.7018,25.1,20
+chain,linear,effect_modifying,0.35,0.3500,2.6680,2.3532,3.2514,0.75,0.9,0.825,0.8243,0.9495,0.7041,24.5,20
+chain,nlg,additive,0.35,0.3500,1.6419,1.4159,2.0017,0.75,0.9,0.825,0.8244,0.9478,0.7064,24.1,20
+chain,nlg,effect_modifying,0.35,0.3500,1.7498,1.3378,1.9919,0.75,0.9,0.825,0.8247,0.9425,0.7117,23.1,20
+collider,linear,additive,0.35,0.3500,5.8262,3.7981,8.1330,0.75,0.9,0.825,0.8241,0.9599,0.6944,26.6,20
+collider,linear,effect_modifying,0.35,0.3500,5.9421,4.5011,7.5081,0.75,0.9,0.825,0.8245,0.9581,0.6966,26.1,20
+collider,nlg,additive,0.35,0.3500,2.5132,1.5721,3.1733,0.75,0.9,0.825,0.8244,0.9475,0.7072,24.0,20
+collider,nlg,effect_modifying,0.35,0.3500,2.5091,1.7088,3.2026,0.75,0.9,0.825,0.8243,0.9485,0.7058,24.3,20
+triangle,linear,additive,0.35,0.3500,3.4533,2.9780,4.0129,0.75,0.9,0.825,0.8250,0.9532,0.6942,25.9,20
+triangle,linear,effect_modifying,0.35,0.3500,3.1278,2.6558,3.5638,0.75,0.9,0.825,0.8249,0.9304,0.7173,21.3,20
+triangle,nlg,additive,0.35,0.3500,2.9621,2.5777,3.4332,0.75,0.9,0.825,0.8250,0.9554,0.6920,26.3,20
+triangle,nlg,effect_modifying,0.35,0.3500,2.3295,1.9822,2.9194,0.75,0.9,0.825,0.8253,0.9344,0.7139,22.0,20

@@ -1,0 +1,51 @@
+experiment_name: recourse_triangle
+seed: 20260710            # single fixed master seed; all streams derive from it
+output_dir: results/recourse_triangle
+family: linear            # functional family: selects SCM builder + form template
+                          # + L1-oracle estimator + the aggregate CSVs' family cell key.
+                          # The NLG twin of this cell is configs/recourse_triangle_nlg.yaml.
+
+# Model-agnostic recourse (L0 + L2), TRIANGLE only, linear family,
+# additive + effect-modifying regimes. Reuses the classifier block below so the
+# whole pipeline (SCM -> classifier h -> recourse -> scoring) runs from ONE config and
+# ONE master seed. The classifier block MIRRORS configs/classifier_triangle.yaml.
+classifier:
+  N: 4000
+  test_fraction: 0.25
+  protected_attr: A
+  base_rate_target: 0.35
+  base_rate_tol: 0.02
+  min_neg_per_group: 100
+  accuracy_band: [0.75, 0.90]
+  accuracy_target: 0.825
+  beta:
+    X1: 1.0
+    X2: 1.0
+  noise_calibration:
+    scale_lo: 0.01
+    scale_hi: 40.0
+    max_iter: 50
+  penalty: null
+  max_iter_lr: 2000
+
+recourse:
+  l_p: 2                   # ℓ₂ cost norm, fixed across every cell/condition (Ehyaei2023 self-dual)
+  actionable: [X1, X2]     # actionable set; A (Gender) EXCLUDED (immutable)
+
+  # Per-axis DELTA grid (relative to each individual's factual value). Each axis is
+  # symmetric around the no-change delta 0, which is forced in so single-variable, joint
+  # and no-op interventions are all reachable. Resolution is the precision knob
+  # validated by the G1 anchor smoke check — tuned upward until the anchor passes.
+  grid:
+    mode: sd               # span = k * SD(feature); alternative "range" = k * 0.5*(max-min)
+    k: 4.0                 # factual +/- k*SD reach per axis
+    resolution: 161        # points per axis BEFORE forcing 0 in (knob; tuned via anchor)
+
+  # G1 pulled-back closed-form SMOKE CHECK (not full G1). The brute-force optimum must
+  # land within `tolerance` grid steps of the pulled-back closed form, on individuals
+  # whose optimum is reachable inside the grid span. Absolute (step-scaled), NOT
+  # relative-to-optimum: near the boundary the optimum is tiny, so a ratio would be
+  # dominated by discretization.
+  anchor:
+    tolerance: 1.5          # allowed abs error as a MULTIPLE of one grid diagonal step
+    n_sample: 100

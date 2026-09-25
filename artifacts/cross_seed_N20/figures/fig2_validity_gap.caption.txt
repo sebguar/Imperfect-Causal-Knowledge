@@ -1,0 +1,40 @@
+Figure 2. Per-seed REALIZED VALIDITY RATE of the A = −1 group at L1-oracle,
+one marker per seed, for each of the 12 cells in a fixed (topology, family,
+regime) order — cells are never re-ordered by value, so the comparison reads
+against the labelled axis. This figure plots ONE GROUP'S LEVEL: it is neither
+ValidityGap_g(c) (believed − realized, per group) nor ValidityDisp(c)
+(realized A = −1 − realized A = +1); no cross-group difference is drawn.
+Colour carries the functional family and marker shape carries the topology,
+which the axis order also encodes. WHAT THE BANDS DO. Every cell has a mode at
+validity ≈ 1.0, and every one of the 12 cells reaches 1.000 on at least one
+seed. What differs is the LOWER TAIL. 63 of 240 (cell, seed) observations fall
+below 0.9, and 10 fall below 0.1 — a near-total failure of recourse for that
+group on that seed. Those 10 collapse observations are confined to 5 of the 12
+cells: collider · linear · effect-modifying 1/20; collider ·
+nonlinear-Gaussian · additive 3/20; collider · nonlinear-Gaussian ·
+effect-modifying 3/20; chain · nonlinear-Gaussian · additive 2/20; chain ·
+nonlinear-Gaussian · effect-modifying 1/20. Per topology, the count of
+observations below 0.9 is triangle 5/80, collider 29/80, chain 29/80, and the
+lowest single value is triangle 0.566, collider 0.000, chain 0.027. NO
+TOPOLOGY IS FREE OF THE LOWER TAIL. The triangle is the mildest — no collapse
+seed anywhere, and 3 of its 4 cells hold every seed at or above 0.96 — but its
+linear additive cell still puts 5 seeds between 0.566 and 0.851, so "no switch
+on the triangle" is not what these data show. THE CHAIN, FIRST APPEARANCE. The
+chain was added to the grid after the early look and has never appeared in a
+validity figure; its read here is uncorroborated by any prior look. Its
+low-tail count ties the collider for the largest of the three (29 of 80
+observations below 0.9), its linear additive cell is the single most
+tail-heavy on the grid (11/20 seeds below 0.9), and its two nonlinear-Gaussian
+cells contain collapse seeds. WHY NO MEAN OR SD IS DRAWN. At the N = 6 early
+look this distribution read as near-binary with a sparse middle. At N = 20 the
+middle is POPULATED (53 observations between 0.1 and 0.9), so the accurate
+description is a heavy mode at ≈ 1.0 with a long left tail rather than two
+clean modes. The conclusion is unchanged: a mean ± SD would report a centre
+where little mass sits, so the moments are omitted and every seed is shown.
+Validity is a proportion and so is scale-free across topologies, but the
+cross-topology reading remains pattern-only per PS-8. N = 20 seeds per cell
+(PS-1's pinned ceiling). This figure is descriptive: H2's verdict is recorded
+at LD-3 and in t4b_validity_gap.md, not here. There are no standard errors or
+confidence intervals on this figure: PS-9 re-tasks SD as descriptive
+dispersion, and a formal interval would over-promise precision this structure
+lacks (the inference stance).

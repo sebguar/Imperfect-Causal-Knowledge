@@ -1,0 +1,56 @@
+appendix_classifier_calibration -- provenance
+
+git_commit         : 5863f2d253f48482e17d40ad4ba644ad76f1a486
+git_dirty          : False
+source_path_glob   : results/cross_seed_N20/<topology>_<family>_<regime>_seed_*/classifier_params.json
+canonical_source   : classifier_params.json per (cell, seed). h is trained once per
+                     (cell, seed) and reused across rungs; L1-discovered inherits the
+                     same classifier, verified byte-identical against
+                     results/cross_seed_L1d_N20/. manifest.json carries config, SCM
+                     estimation and seeding only -- it has no classifier block.
+rows               : 12 cells (3 topologies x 2 families x 2 regimes)
+outputs            : appendix_classifier_calibration.csv (rounded)
+                     appendix_classifier_calibration_full_precision.csv (full precision)
+
+constants (hardcoded; verified against all six configs/ classifier blocks)
+  base_rate_target       = 0.35
+  accuracy_target_band   = [0.75, 0.9]
+  accuracy_target_center = 0.825
+
+aggregation
+  base_rate_realized, accuracy_realized, accuracy_group_neg, accuracy_group_pos and
+  eps_scale_mean are means across the 20 seeds of the cell, at 4 dp in
+  the rounded file and unrounded in the _full_precision sibling.
+  eps_scale_min / eps_scale_max are the extremes across those same 20 seeds.
+  accuracy_gap_pp = |accuracy_group_pos - accuracy_group_neg| x 100, taken on the
+  aggregated (mean) group accuracies so it reconciles with the two adjacent columns;
+  1 dp in the rounded file, unrounded in the _full_precision sibling.
+
+eps_scale note
+  eps_scale is calibrated per (cell, seed) by bisection in _calibrate_eps_scale
+  (icknowledge/classifier/training.py), targeting accuracy_target on that seed's own
+  sample and train/test split. It is NOT a per-cell construction parameter, so no
+  bit-identity assert is applied across seeds; the cross-seed spread (29-74% of the
+  cell mean, depending on cell) is reported via eps_scale_min / eps_scale_max.
+
+gates (all passed; emission halts on any failure)
+  n_seeds == 20 asserted per cell, not inferred from the files present.
+  every per-seed accuracy_overall inside [0.75, 0.9] -- 240 runs checked.
+  every per-seed calibration.base_rate_target == 0.35.
+  refuse-if-exists on all three outputs.
+
+max accuracy_gap_pp : 26.6 pp at collider_linear_additive
+
+per-cell seed count read
+  chain_linear_additive              20
+  chain_linear_effect_modifying      20
+  chain_nlg_additive                 20
+  chain_nlg_effect_modifying         20
+  collider_linear_additive           20
+  collider_linear_effect_modifying   20
+  collider_nlg_additive              20
+  collider_nlg_effect_modifying      20
+  triangle_linear_additive           20
+  triangle_linear_effect_modifying   20
+  triangle_nlg_additive              20
+  triangle_nlg_effect_modifying      20

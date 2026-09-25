@@ -1,0 +1,56 @@
+experiment_name: recourse_triangle_nlg
+seed: 20260710            # single fixed master seed; all streams derive from it (the seed-generation meta-entropy)
+output_dir: results/recourse_triangle_nlg
+family: nlg               # NONLINEAR-GAUSSIAN triangle: X2 := ... g*tanh(X1) ... + U2
+
+# The NLG twin of configs/recourse_triangle.yaml — same topology (triangle
+# A -> X1, A -> X2, X1 -> X2), same seed, same classifier knobs, same grid; ONLY the
+# functional family changes. Ladder {L0, L1-oracle, L2} x {additive, effect_modifying},
+# single seed. The L1-oracle rung is fitted by unregularized OLS on the SUPPLIED
+# tanh form template (the form-template-known semantics, carried to this family by the NLG family specification with no
+# The form-template-known extension: the NLG mechanism is linear-in-parameters after the fixed tanh).
+classifier:
+  N: 4000
+  test_fraction: 0.25
+  protected_attr: A
+  base_rate_target: 0.35  # the classifier construction, unchanged from the linear triangle
+  base_rate_tol: 0.02
+  min_neg_per_group: 100
+  accuracy_band: [0.75, 0.90]
+  accuracy_target: 0.825
+  beta:
+    X1: 1.0
+    X2: 1.0
+  # The classifier construction: eps_scale is auto-calibrated so test accuracy lands in the band. Its
+  # calibrated VALUE will differ from the linear triangle's — that is expected and
+  # correct: the classifier construction holds QUALITY constant across cells, not the noise
+  # scale. The realized value is printed by the driver and recorded in the manifest.
+  noise_calibration:
+    scale_lo: 0.01
+    scale_hi: 40.0
+    max_iter: 50
+  penalty: null
+  max_iter_lr: 2000
+
+recourse:
+  l_p: 2                   # the cost convention: l_2 cost norm, fixed across every cell/condition
+  actionable: [X1, X2]     # the ℓ₂ intervention-cost convention: A (Gender) EXCLUDED — immutable
+
+  grid:
+    mode: sd               # span = k * SD(feature)
+    k: 4.0                 # factual +/- k*SD reach per axis
+    # The grid resolution (amended on the family axis): grid resolution is pinned per TOPOLOGY and
+    # INHERITED across functional family — the triangle's res=161 carries over to the
+    # NLG cell unchanged. A family-indexed resolution would confound the H3
+    # cross-family reading with a numerical-envelope difference; any change is a new
+    # register row, never a silent tweak.
+    resolution: 161
+
+  # INERT for this cell: the driver runs with run_anchor=False for every non-linear
+  # family, and pipeline.run_regime refuses run_anchor=True outright there. The
+  # Ehyaei G1 closed form assumes a LINEAR SCM and a linear classifier (the ℓ₂
+  # intervention-cost convention), so it does not apply to an NLG cell. The block is retained only so this
+  # config stays structurally identical to its linear twin.
+  anchor:
+    tolerance: 1.5
+    n_sample: 100

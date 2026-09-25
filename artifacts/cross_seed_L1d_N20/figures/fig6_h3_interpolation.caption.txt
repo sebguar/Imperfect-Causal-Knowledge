@@ -1,0 +1,44 @@
+Figure 6. The H3 interpolation frame: per-seed realized-cost gaps against the
+L1-oracle reference, one panel per (topology x family) and two strips per
+panel (additive above, effect-modifying below). POPULATION: the PS-4 four-way
+common-found set; the `fourway` denominator label is carried on the value
+axis, in every panel title and here, because a four-way number may never sit
+under an unlabelled or three-way header (PS-4 JOINT TABLES / dynamic-arity
+suffix). GAP FRAME: L1-oracle is the reference rung, so its gap is identically
+zero by construction (the vertical reference line); the large points are the
+20 per-seed dcost_ld values (cost at L1-discovered minus cost at L1-oracle)
+and the small, lighter points of the same colour are the per-seed dcost_l0
+values (cost at L0 minus cost at L1-oracle), which supply the far end of each
+seed's interpolation interval and vary from seed to seed. THREE REGIONS (the
+PS-8 region partition, as corrected to the mutually exclusive interval
+partition). With m the strip's MEAN dcost_l0: region 1 (holds) is the closed
+interval [min(0, m), max(0, m)], shaded grey; region 2 (the
+predicted-direction violation, worse than BOTH baselines) is beyond max(0, m),
+shaded warm; region 3 (better than both) is below min(0, m), shaded cool. The
+shaded boundaries are drawn from the mean, which is a drawing device only:
+per-seed interval ends differ and are plotted as the small points, and every
+region COUNT printed on a strip is the per-seed assignment read verbatim from
+the frozen h3_per_seed.csv `region` column, never re-derived from m. THE
+worse-than-no-graph NULL IN ONE NUMBER: region 2 contains 0 of 240 per-seed
+observations across the grid. The empty predicted zone is drawn and labelled
+on every strip rather than omitted, so the figure shows a measured absence and
+not an absent measurement. REGION 3, by contrast, is occupied: 88 of 120
+effect-modifying seeds and 1 of 120 additive seeds sit below both baselines,
+i.e. the discovered graph was CHEAPER than the oracle graph. CHANNELS (LD-2
+classification/label layer, read from h3_instance_table_v2.csv; no channel is
+inferred here). Class (c) is the registered interaction-blindness channel
+(PS-7) — a perfect skeleton with correct orientations, where the discovered
+rung's group-agnostic form prescribes cheaper pooled actions. Class (d) is
+regime-induced skeleton misspecification: the A-X2 dependence is carried by
+the interaction and is therefore structurally invisible to the pinned linear
+CI test (LD-2). Additive strips whose seeds are all region 1 at exactly zero
+carry the form-preserving estimation identity of PS-7 note (c) — a positive
+confirmation, not missing data. PS-8: levels are not comparable across
+topologies (different action-space dimension, induced marginal variances and
+classifier-boundary geometry), so each topology row carries one shared x-range
+for its two family panels and the rows are independent of one another; a
+cross-row reading is pattern-only. All 20 per-seed values are shown; the bar
+is the mean dcost_ld with +/-1 DESCRIPTIVE SD (ddof = 1). There are no
+standard errors or confidence intervals on this figure: PS-9 re-tasks SD as
+descriptive dispersion, and a formal interval would over-promise precision
+this structure lacks (the inference stance).

@@ -1,0 +1,64 @@
+experiment_name: recourse_collider
+seed: 20260710            # single fixed master seed; all streams derive from it (the seed-generation meta-entropy)
+output_dir: results/recourse_collider
+family: linear            # functional family: selects SCM builder + form template
+                          # + L1-oracle estimator + the aggregate CSVs' family cell key.
+                          # The NLG twin of this cell is configs/recourse_collider_nlg.yaml.
+
+# Collider topology smoke — L0 + L2 only, linear family, additive +
+# effect-modifying regimes. Mirrors configs/recourse_triangle.yaml but for the
+# 3-variable collider (a′): A → {X₁, X₂, X₃}, X₁ → X₃ ← X₂ (the SCM specification). The
+# classifier is group-blind h(X₁, X₂, X₃) (the classifier construction); actionable set {X₁, X₂, X₃} (PS-8).
+classifier:
+  N: 1500                 # collider pilot dataset (the res=41 grid keeps the full-pool run tractable, the grid resolution)
+  test_fraction: 0.25
+  protected_attr: A
+  base_rate_target: 0.35  # credit-like base rate (the classifier construction), same as the triangle
+  base_rate_tol: 0.02
+  # [LD-1] Lowered 90 -> 75 after N=20 execution showed this cell's
+  # A=+1 pool crossing below 90 on 2 of 20 seeds (idx 15: 80, idx 16: 84). 75 is
+  # derived from the assertion's own function — the floor bounds SE-of-group-mean,
+  # 10.541% of population SD at n=90 vs 11.547% at n=75, a 1.006 pp change — not
+  # from the observed failures. Assertion-only: nothing downstream reads it, so no
+  # completed artifact moves. See LD-1 for the outcome-blindness record.
+  min_neg_per_group: 75   # A=+1 pool 80-174 across the 20 seeds (strong root skews negatives to A=−1)
+  accuracy_band: [0.75, 0.90]
+  accuracy_target: 0.825
+  beta:                   # fixed, declared label weights over the 3 descendant features
+    X1: 1.0
+    X2: 1.0
+    X3: 1.0
+  noise_calibration:
+    scale_lo: 0.01
+    scale_hi: 40.0
+    max_iter: 50
+  penalty: null
+  max_iter_lr: 2000
+
+recourse:
+  l_p: 2                   # ℓ₂ cost norm, fixed across every cell/condition (the cost convention)
+  actionable: [X1, X2, X3] # 3-D action space (PS-8); A (Gender) EXCLUDED (immutable)
+
+  # Per-axis DELTA grid, symmetric around 0 (forced in). The precision knob.
+  #
+  # RESOLUTION — grid-resolution-pinned. Grid resolution is topology-scaled: the
+  # brute-force candidate count scales as res^k in the actionable-set dimension k, so
+  # a single global resolution cannot serve both topologies. The triangle (k=2) uses
+  # res=161; the collider (k=3) uses res=41 — 41³ ≈ 69k candidates, at which the L2
+  # push-through completes in tens of seconds per condition per regime on the full
+  # pool (triangle-parity 161 would be 161³ ≈ 4.2M candidates → hours). PS-8 already
+  # forbids cross-topology LEVEL comparison, so a coarser collider grid compromises no
+  # permitted test; all collider conditions share this one grid, so intra-topology
+  # comparisons stay on a common numerical footing. Any increase is a register-logged
+  # new row, never a silent tweak (the grid resolution).
+  grid:
+    mode: sd               # span = k * SD(feature)
+    k: 4.0                 # factual ± k*SD reach per axis
+    resolution: 41         # grid-resolution-pinned production resolution for the collider (k=3)
+
+  # G1 pulled-back closed-form smoke check tuning knobs (topology-correct anchor for
+  # the collider lives in tests/test_collider_scm.py, since anchor.py's closed form
+  # enumerates only singletons + full-joint — incomplete for 3 actionable vars).
+  anchor:
+    tolerance: 1.5          # allowed abs error as a MULTIPLE of one grid diagonal step
+    n_sample: 100

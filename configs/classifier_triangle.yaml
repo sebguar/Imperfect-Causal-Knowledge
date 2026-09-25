@@ -1,0 +1,39 @@
+experiment_name: classifier_triangle
+seed: 20260710            # single fixed master seed; all streams derive from it
+output_dir: results/classifier_triangle
+
+# Group-blind LR training + PS-2-aligned calibration gate.
+# TRIANGLE only, linear family, additive + effect-modifying regimes.
+classifier:
+  N: 4000 # few-thousand dataset
+  test_fraction: 0.25           # held-out split, used ONLY for the accuracy number
+  protected_attr: A             # Gender root; EXCLUDED from features, kept for scoring
+
+  # Documented CREDIT-LIKE approval rate (~0.35), not the 0.50 default. A is a
+  # strong root (convention 1: strong downstream influence for a DETECTABLE
+  # disparity), which separates the groups' signals so far that a balanced 0.50 rate
+  # leaves the high-signal group with almost no negatives. A credit-like approval
+  # rate restores a non-trivial per-group negative pool for BOTH groups while keeping
+  # a documented, principled base rate. Anchor: Karimi2020 balanced-dataset design,
+  # relaxed to the credit-like rate the task permits.
+  base_rate_target: 0.35
+  base_rate_tol: 0.02           # tolerance on the realized global base rate
+  min_neg_per_group: 100        # each group's negative (recourse) pool must be >= this
+
+  accuracy_band: [0.75, 0.90]   # PS-2 gate: trained-h test accuracy must land here
+  accuracy_target: 0.825        # calibration aims here inside the band
+
+  # beta: fixed, DECLARED label weights over descendant features (NOT fitted).
+  beta:
+    X1: 1.0
+    X2: 1.0
+
+  # label-noise calibration: bisection on eps_scale (eps = eps_scale * z,
+  # z ~ N(0,1) from the label stream, SEPARATE from the SCM feature noise).
+  noise_calibration:
+    scale_lo: 0.01              # bracket low  -> high accuracy
+    scale_hi: 40.0             # bracket high -> ~chance accuracy
+    max_iter: 50
+
+  penalty: null                 # near-unregularized LR (penalty=None); fallback large C
+  max_iter_lr: 2000

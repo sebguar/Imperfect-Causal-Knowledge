@@ -1,0 +1,31 @@
+Figure 5. The regime contrast (H4's primary evidence): |DDB(c)| under the
+effect-modifying treatment beside its matched additive control, at each
+degraded knowledge rung. Each pair is one SCM instance; small translucent
+points are the 20 per-seed |DDB| values, the bar is the instance mean and the
+whisker is +/-1 descriptive SD. No standard errors or confidence intervals
+(PS-9; the inference stance). Magnitudes are plotted because PS-9 states the
+contrast criterion on magnitudes; the signed values are Figure 4's subject.
+POPULATION: DDB(c) is built on the PAIRWISE-vs-L2 common-found set
+(`N_common_found_pairwise_vs_L2`, value column `ΔB_g_vs_L2_common_found`),
+whose denominator arity is TWO. The `twoway` word is carried on the value axis
+and here, per PS-4's dynamic-arity rule. LAYOUT — PS-8 ENFORCED BY THE
+ENCODING, NOT BY THIS SENTENCE. Each topology has its OWN sub-axis with its
+OWN y-range, in every rung row. There is deliberately no shared vertical scale
+across topologies, so a cross-topology magnitude comparison is not available
+to make rather than merely warned against; marker shape carries topology as
+well (circle = triangle, diamond = collider, square = chain). What remains on
+one common scale is the comparison PS-9 actually reads: treatment beside its
+matched control, within one instance. Read each pair against its own control,
+never against another topology's bar. PS-9 CONTRAST CRITERION:
+|DDB(c)|_treatment > |DDB(c)|_control, read per topology across the three
+topologies. OBSERVED: at L1-oracle the contrast holds on collider, chain and
+FAILS on none — the remaining topologies are exempted as saturated-tiny in
+both arms; at L0 it holds on triangle and FAILS on collider, chain. SIGNAL-2
+DISCRIMINATOR (before these numbers existed): the PS-9 N=20 diagnostic found
+the dominant validity-collapse separator to be estimation error on an
+UNMODIFIED, regime-shared downstream edge. Such a channel would move BOTH
+arms, so a clean contrast (treatment signed, control flat) rules it out as the
+driver of DDB, while a non-flat control makes it a live alternative
+explanation that must be named rather than shelved. OBSERVED: 6 control
+(instance, rung) readings are non-flat, so the Signal-2 channel is a LIVE
+alternative explanation and is named as such in the H4 write-up.

@@ -1,0 +1,72 @@
+experiment_name: recourse_chain_nlg
+seed: 20260710            # single fixed master seed; all streams derive from it (the seed-generation meta-entropy)
+output_dir: results/recourse_chain_nlg
+family: nlg               # NONLINEAR-GAUSSIAN chain (the chain SCM specification): X2 := ... tanh(X1) ..., X3 := ... tanh(X2) ...
+
+# The NLG twin of configs/recourse_chain.yaml — same topology (chain (a″)
+# A → X₁, A → X₂, A → X₃, X₁ → X₂ → X₃), same seed, same classifier knobs, same
+# grid; ONLY the functional family changes. Ladder {L0, L1-oracle, L2} ×
+# {additive, effect_modifying}. The L1-oracle rung is fitted by unregularized OLS on
+# the SUPPLIED tanh form template (the form-template-known semantics, carried to this family by
+# The NLG family specification with no form-template-known extension: the NLG mechanism is linear-in-parameters after the
+# fixed tanh).
+#
+# COEFFICIENTS are NOT here. They are the builder defaults in
+# icknowledge/scm/chains.py (`make_nonlinear_gaussian_chain`), frozen under the
+# chain SCM specification: a = 0.6, sigma1 = 0.4, beta = 0.6, gamma = 0.4 (EM only, hard-zero by column
+# omission in additive), beta_a2 = 0.3, sigma2 = 0.3, delta = 0.6, beta_a3 = 0.4,
+# sigma3 = 0.4. That mirrors the collider's placement discipline (values live in
+# builder code, the register row states rules and construction constraints only) and
+# keeps ONE source of truth for the coefficients the pre-freeze S(g) MC record and
+# the non-saturation check both read.
+#
+# TWO TANH INPUTS, not one. The chain SCM specification extends the SCM specification's non-saturation constraint to BOTH
+# X₁ (feeding tanh in X₂'s equation) and X₂ (feeding tanh in X₃'s), because the
+# composed path X₁ → X₂ → X₃ compounds the group signal into X₂. Both legs are
+# verified empirically in tests/test_chain_scm.py.
+classifier:
+  N: 1500                 # matches the linear chain and the collider
+  test_fraction: 0.25
+  protected_attr: A
+  base_rate_target: 0.35  # credit-like base rate (the classifier construction)
+  base_rate_tol: 0.02
+  min_neg_per_group: 90
+  accuracy_band: [0.75, 0.90]
+  accuracy_target: 0.825  # eps_scale AUTO-CALIBRATED to hit this (the classifier construction) — the NLG
+                          # value WILL differ from the linear chain's, which is
+                          # correct: the classifier construction holds QUALITY constant across
+                          # regimes and families, not the noise scale.
+  beta:
+    X1: 1.0
+    X2: 1.0
+    X3: 1.0
+  noise_calibration:
+    scale_lo: 0.01
+    scale_hi: 40.0
+    max_iter: 50
+  penalty: null
+  max_iter_lr: 2000
+
+recourse:
+  l_p: 2                   # ℓ₂ cost norm, fixed across every cell/condition (the cost convention)
+  actionable: [X1, X2, X3] # 3-D action space; A (Gender) EXCLUDED (immutable)
+
+  # RESOLUTION — inherited across FUNCTIONAL FAMILY within the chain, per the grid resolution's
+  # family-axis amendment: holding res constant within a topology keeps the
+  # H3 condition × family reading clean, since a family-indexed resolution would
+  # confound the cross-family comparison with a numerical-envelope difference. The
+  # chain's res is pinned by its own wall-clock spike (the grid-resolution amendment) —
+  # family inheritance applies WITHIN that pin, it is not inheritance from another
+  # topology.
+  grid:
+    mode: sd
+    k: 4.0
+    resolution: 41         # chain res, shared with configs/recourse_chain.yaml
+
+  # NO G1 ANCHOR ON THIS CELL. The Ehyaei closed form assumes a LINEAR SCM and a
+  # linear classifier (the ℓ₂ intervention-cost convention), so it is inapplicable — not merely loose — on
+  # an NLG cell, and pipeline.run_regime refuses run_anchor=True here outright.
+  # These knobs are carried for schema parity with the linear config only.
+  anchor:
+    tolerance: 1.5
+    n_sample: 100

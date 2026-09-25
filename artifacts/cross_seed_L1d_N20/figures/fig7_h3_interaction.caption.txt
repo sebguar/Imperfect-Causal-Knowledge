@@ -1,0 +1,42 @@
+Figure 7. The H3 family x provenance interaction (H3a) as paired arms: each
+line joins one seed's dcost_ld under the LINEAR arm to the same seed's
+dcost_ld under the nonlinear-Gaussian arm, at matched (topology, regime).
+POPULATION: the PS-4 four-way common-found set, `fourway` denominator,
+labelled on the value axis, in every panel title and here (PS-4). TOP PANEL -
+ORIENTATION CHANNEL, CONFIRMATORY-PRIMARY (PS-8). The collider is the only one
+of the three topologies whose graph admits any CI-based orientation, so it
+alone carries the interaction channel. Per-seed event =
+dcost_ld(nonlinear-Gaussian, s) - dcost_ld(linear, s) > 0 STRICTLY (PS-8); the
+printed counts are read from the frozen h3_per_seed.csv event column at render
+time. OBSERVED: additive 0/20 with 20 exact zero differences (non-firing under
+the strict inequality), effect-modifying 19/20, against the k = 16/20 gate.
+ORIENTATION-CHANNEL VERDICT: Mixed (1/2 pairs pass). MANDATORY ANNOTATION
+(PS-8), reproduced on the figure itself and here: "interaction reflects
+form-blindness magnitude in the region-3 (cheaper) direction, opposite to H3's
+predicted discovery-penalty direction; cannot be read as a discovery-penalty
+differential." Region occupancy behind that clause: the collider
+effect-modifying arms sit in region 3 on 40 of 40 per-seed observations, i.e.
+the discovered graph was CHEAPER than the oracle graph, which is the opposite
+of H3's predicted discovery penalty. PER ARM, as PS-8 sub-clause (i) requires
+— the pooled figure above can be carried by one arm, so each is stated
+separately: effect-modifying linear 20/20 in region 3 and nonlinear-Gaussian
+20/20 in region 3; additive linear 20/20 in region 1 and nonlinear-Gaussian
+20/20 in region 1. Region membership is the per-seed assignment read from the
+frozen region column; the shaded band below the L1-oracle reference marks the
+region-3 SIDE of the frame and is a reading aid, not a per-seed
+classification. BOTTOM PANELS - CORROBORATING AND non-gating (pinned as purely
+descriptive by the PS-8 non-gating corroboration read). Chain and triangle
+carry the adjacency/skeleton channel. They do not gate the orientation channel
+and no threshold is applied to them; per the registered SYMMETRIC
+no-consequence clause, agreement strengthens the Discussion narrative and
+disagreement is reported as a tension, and neither moves a label, a gate or a
+band. OBSERVED: chain additive 2/20 (18 exact ties); chain effect-modifying
+14/20; triangle additive 0/20 (20 exact ties); triangle effect-modifying
+20/20. SEED PAIRING is the PS-8 common-random-numbers device - the same
+seed_idx across two independently generated cells - so each count is a
+STABILITY count and NOT a matched-population paired test. PS-8: levels are not
+comparable across topologies, so every topology carries its own y-axis and a
+cross-panel reading is pattern-only. All 20 per-seed values are shown, and
+there are no standard errors or confidence intervals on this figure: PS-9
+re-tasks SD as descriptive dispersion only, and a formal interval would
+over-promise precision this structure lacks (the inference stance).

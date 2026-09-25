@@ -1,0 +1,58 @@
+experiment_name: recourse_chain
+seed: 20260710            # single fixed master seed; all streams derive from it (the seed-generation meta-entropy)
+output_dir: results/recourse_chain
+family: linear            # functional family: selects SCM builder + form template
+                          # + L1-oracle estimator + the aggregate CSVs' family cell key.
+                          # The NLG twin of this cell is configs/recourse_chain_nlg.yaml.
+
+# Chain topology (a″) A → {X₁, X₂, X₃}, X₁ → X₂ → X₃ (the chain SCM specification). Mirrors
+# configs/recourse_collider.yaml — same actionable-set dimension (k=3), same N, same
+# grid mode. The classifier is group-blind h(X₁, X₂, X₃) (the classifier construction); actionable set
+# {X₁, X₂, X₃} (the chain SCM specification).
+classifier:
+  N: 1500                 # matches the collider (the res=41 grid keeps the full-pool run tractable, the grid resolution)
+  test_fraction: 0.25
+  protected_attr: A
+  base_rate_target: 0.35  # credit-like base rate (the classifier construction), same as triangle and collider
+  base_rate_tol: 0.02
+  min_neg_per_group: 90   # matches the collider's floor at N=1500 (strong root skews negatives to A=−1)
+  accuracy_band: [0.75, 0.90]
+  accuracy_target: 0.825  # eps_scale is AUTO-CALIBRATED to hit this (the classifier construction) — never hardcoded
+  beta:                   # fixed, declared label weights over the 3 descendant features
+    X1: 1.0
+    X2: 1.0
+    X3: 1.0
+  noise_calibration:
+    scale_lo: 0.01
+    scale_hi: 40.0
+    max_iter: 50
+  penalty: null
+  max_iter_lr: 2000
+
+recourse:
+  l_p: 2                   # ℓ₂ cost norm, fixed across every cell/condition (the cost convention)
+  actionable: [X1, X2, X3] # 3-D action space; A (Gender) EXCLUDED (immutable)
+
+  # Per-axis DELTA grid, symmetric around 0 (forced in). The precision knob.
+  #
+  # RESOLUTION — res=41 is the EMPIRICAL STARTING POINT, not inheritance. The grid resolution pins
+  # grid resolution PER TOPOLOGY because the brute-force candidate count scales as
+  # res^k in the actionable-set dimension k, and explicitly states that adding a
+  # fourth topology "triggers a fresh grid-resolution pin, not inheritance".
+  # The chain has k=3 like the collider, so the collider's res=41 (41³ ≈ 69k
+  # candidates, tens of seconds per condition per regime on the full pool) is the
+  # natural starting point — but it is CONFIRMED by the chain's own wall-clock spike
+  # and pinned in its own grid-resolution amendment, never assumed. The triangle's
+  # k=2 res=161 is emphatically NOT inherited (161³ ≈ 4.2M candidates → hours).
+  # Any change is a register-logged new row, never a silent tweak (the grid resolution).
+  grid:
+    mode: sd               # span = k * SD(feature)
+    k: 4.0                 # factual ± k*SD reach per axis
+    resolution: 41         # chain (k=3) — pinned by the grid-resolution amendment
+
+  # G1 pulled-back closed-form smoke check tuning knobs. The topology-correct
+  # pulled-back anchor for the chain is verified independently in
+  # tests/test_chain_scm.py, mirroring the collider's cross-check discipline.
+  anchor:
+    tolerance: 1.5          # allowed abs error as a MULTIPLE of one grid diagonal step
+    n_sample: 100

@@ -1,0 +1,27 @@
+Figure 1. Realized recourse cost across the knowledge ladder (L2 -> L1-oracle
+-> L0), by protected group, for each of the 12 (topology x family x regime)
+cells of the full grid; small markers are the 20 per-seed cell means and the
+connecting line joins their seed averages; the vertical whisker at each
+average is +/-1 descriptive SD (ddof = 1). POPULATION: the common-found
+`threeway` set — individuals for whom a feasible action is returned in every
+one of the three conditions. The arity word is carried on the value axis, in
+the caption and nowhere abbreviated, because the four-way L1-discovered series
+(PS-4) sits on a different denominator and the two are not interchangeable. On
+this grid the three-way common-found read coincides EXACTLY with the
+all-eligible read (max |difference| = 0.000e+00), because the exhaustive grid
+search always returns a feasible action; the primary column is plotted
+regardless, since the provenance is the point. PS-8: levels are NOT comparable
+across topologies (different action-space dimension, induced marginal
+variances and classifier-boundary geometry), so each topology's two rows carry
+one shared y-range, the three topologies are independent of one another, and
+any cross-topology reading is pattern-only. Within a topology the vertical
+scan (family) and the horizontal scan (regime) are legitimate. CHAIN ROWS ARE
+A FIRST APPEARANCE. The chain was added to the grid after the early look, so
+its four cells appear in an H1 figure here for the first time and are
+uncorroborated by any prior look — there is no earlier rendering to agree or
+disagree with them (the same flag LD-3 carries on the H1 verdict). N = 20
+seeds per cell (PS-1's pinned ceiling). All 20 per-seed values are shown
+rather than summarized. There are no standard errors or confidence intervals
+on this figure: PS-9 re-tasks SD as descriptive dispersion, and a formal
+interval would over-promise precision this structure lacks (the inference
+stance).

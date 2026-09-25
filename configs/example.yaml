@@ -1,0 +1,6 @@
+experiment_name: example
+seed: 42
+output_dir: results/example
+notes: |
+  Placeholder config used by the smoke tests. Real experiment configs will
+  extend this schema with SCM family, topology, knowledge level, etc.

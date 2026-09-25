@@ -1,0 +1,13 @@
+# Imperfect-Causal-Knowledge — runtime dependencies.
+# Requires Python >= 3.11 (all results were produced on CPython 3.11.9).
+# Pinned to the exact versions that produced results/; the full transitive
+# freeze of that environment is in env_snapshots/.
+causal-learn==0.1.4.8
+matplotlib==3.11.0
+networkx==3.6.1
+numpy==2.4.6
+omegaconf==2.3.1
+pandas==3.0.3
+pyyaml==6.0.3         # via omegaconf; pinned so config parsing is locked too
+scikit-learn==1.9.0
+scipy==1.17.1

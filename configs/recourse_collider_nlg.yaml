@@ -1,0 +1,72 @@
+experiment_name: recourse_collider_nlg
+seed: 20260710            # single fixed master seed; all streams derive from it (the seed-generation meta-entropy)
+output_dir: results/recourse_collider_nlg
+family: nlg               # NONLINEAR-GAUSSIAN collider: X3 := ... tanh(X1) ... tanh(X2) ...
+
+# The NLG twin of configs/recourse_collider.yaml — same topology (collider
+# (a') A -> X1, A -> X2, A -> X3, X1 -> X3 <- X2), same seed, same classifier knobs,
+# same grid; ONLY the functional family changes. Ladder {L0, L1-oracle, L2} x
+# {additive, effect_modifying}, single seed. The L1-oracle rung is fitted by
+# unregularized OLS on the SUPPLIED tanh form template (the form-template-known semantics, carried
+# to this family by the NLG family specification with no form-template-known extension: the NLG mechanism is
+# linear-in-parameters after the fixed tanh).
+#
+# COEFFICIENTS are NOT here. They are the builder defaults in
+# icknowledge/scm/colliders.py (`make_nonlinear_gaussian_collider`), frozen by the
+# SCM specification: alpha1 = alpha2 = 0.6, sigma1 = sigma2 = 0.4, beta = eta =
+# 0.7, gamma = 0.3 (EM only, hard-zero by column omission in additive), beta_A = 1.0,
+# sigma3 = 1.0, beta0 = 0.0. That mirrors the linear collider's placement discipline
+# (values live in builder code, the register row states rules and construction
+# constraints only) and keeps ONE source of truth for the coefficients the pre-freeze
+# S(g) MC calibration is anchored to.
+classifier:
+  N: 1500                 # collider pilot dataset, inherited from the linear collider cell
+  test_fraction: 0.25
+  protected_attr: A
+  base_rate_target: 0.35  # the classifier construction, unchanged from the linear collider
+  base_rate_tol: 0.02
+  # [LD-1] The floor is a TOPOLOGY property and the family axis inherits
+  # it, so this moves with the linear collider's 90 -> 75. Operationally inert here
+  # (this cell's A=+1 pool runs 127-215 across the 20 seeds, never near either
+  # value); changed so the two collider configs cannot drift apart and imply a
+  # family-indexed floor the register does not declare.
+  min_neg_per_group: 75   # A=+1 pool ~155/159 at N=1500 under the SCM specification NLG coefficients
+  accuracy_band: [0.75, 0.90]
+  accuracy_target: 0.825
+  beta:                   # fixed, declared label weights over the 3 descendant features
+    X1: 1.0
+    X2: 1.0
+    X3: 1.0
+  # The classifier construction: eps_scale is auto-calibrated so test accuracy lands in the band. Its
+  # calibrated VALUE differs from the linear collider's — that is expected and
+  # correct: the classifier construction holds QUALITY constant across cells, not the noise
+  # scale. The realized value is printed by the driver and recorded in the manifest.
+  noise_calibration:
+    scale_lo: 0.01
+    scale_hi: 40.0
+    max_iter: 50
+  penalty: null
+  max_iter_lr: 2000
+
+recourse:
+  l_p: 2                   # the cost convention: l_2 cost norm, fixed across every cell/condition
+  actionable: [X1, X2, X3] # 3-D action space (PS-8); A (Gender) EXCLUDED (immutable)
+
+  grid:
+    mode: sd               # span = k * SD(feature)
+    k: 4.0                 # factual +/- k*SD reach per axis
+    # The grid resolution (amended on the family axis): grid resolution is pinned per TOPOLOGY and
+    # INHERITED across functional family — the collider's res=41 (k=3 actionable vars,
+    # 41^3 ~ 69k candidates) carries over to the NLG cell unchanged. A family-indexed
+    # resolution would confound the H3 cross-family reading with a numerical-envelope
+    # difference; any change is a new register row, never a silent tweak.
+    resolution: 41
+
+  # INERT for this cell: the driver runs with run_anchor=False for every non-linear
+  # family, and pipeline.run_regime refuses run_anchor=True outright there. The
+  # Ehyaei G1 closed form assumes a LINEAR SCM and a linear classifier (the ℓ₂
+  # intervention-cost convention), so it does not apply to an NLG cell. The block is retained only so this
+  # config stays structurally identical to its linear twin.
+  anchor:
+    tolerance: 1.5
+    n_sample: 100
